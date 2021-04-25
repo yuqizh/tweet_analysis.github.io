@@ -1,0 +1,70 @@
+---
+title: "Project Summary"
+author: "Yuqi Zhao"
+date: "4/20/2021"
+output: html_document
+---
+
+
+
+## Introduction 
+
+The topic of our project is to compare the tweets data of two people using text mining method to discover the sentiments, patterns, similarities, and differences in their texts. We chose **Hua Chunying and Antony Blinken's tweets** as the subjects of this study. These two people's commonality is that they both work as diplomats, but their difference is that one represents China (Hua chunying) and the other represents the United States (Antony Blinken), both are regional hegemonies. 
+
+
+Diplomats represent national positions. Two different regional powers have their own attitudes towards regional influences and international political projections. We are going to analyze the sentiment, word cloud, naive bayes, and vector machine to see their diplomatic strategy, national focus, and political power projection of the two countries. 
+ 
+## Methodology 
+
+**For this project, we decided to utilize both R and Python for different parts. This is because each language has edges in different NLP methods. Here is a summary of the methods used in R and Python (bolded):**
+
+### R: 
+In R, we first conducted preliminary explorations on the time at which the candidates tweets as well as the proportion of tweets that contains pictures or links. 
+
+Then, we moved into assessing the most commonly used words by each candidate with 2 method: the **regular expression pattern** method that filters for words and digits (also includes hashtags, @, digits, but not punctuation) and **stemming method** that gets rid of stop words, punctuation, white space, number and customized words such as “the, https, t.co, with” and so on. Although we have built word clouds for both candidates in Python, we decided to run it again in R to see whether the 2 platforms yield different results.
+
+Lastly, we conducted sentiment analysis that groups tweet words with the **nrc lexicon** into 10 sentiments. We calculate the log odds ratio of commonly used words by candidate to see how likely a certain word is used by Hua or Blinken.
+
+### Python:
+We will extract tweets from Hua Chunying and Antony Blinken using codes modified from https://gist.github.com/yanofsky/5436496. We deleted useless columns in the extracted datasets, and added a column with the user’s name.
+
+Then we transformed the data into tokens, created a word cloud with meaningful words. To prepare for algorithm training, we divided the dataset into training dataset and test dataset. We used **count vectorizer and tfidf vectorizer** to transform the text into trainable features.
+We used the count vectorizer and tfidf vectorizer to train a algorithm based on **Naive Bayes**. Tested the algorithms with the testing datasets, and calculate the accuracy score and plot the confusion matrix.
+
+We used the tfidf vectorizer to train a **Support Vector Classifier**. Tested the algorithms with the testing datasets, and calculate the accuracy score and plot the confusion matrix.
+At last, we used the tweets extracted from Kanye West testing the 3 algorithms (2 based on Naive Bayes, 1 Support Vector Classifier) to see how the algorithms work.
+
+
+## Results
+
+**Below is a summary of the results of R and Python analysis on Blinken and Hua's tweets. For visualizations and codes, please see the "Part 1: R Coding" and "Part 2: Python Coding" tab above.**
+
+### R:
+The preliminary exploration part shows that based on West Coast time (EST,) we see that Blinken tweets the most at around 9:30am of the day and the number declines as the day turns to night. However, Hua follows an opposite pattern, tweeting the most at around 1am EST and stays active in the night time. The opposite styles are probably due to the 12-hour-difference between the U.S. and China. Then, we can look at how many of the tweets have pictures or links for Blinken and Hua. Hua has almost 6 times more tweets than Blinken (this is because she joined 2 years earlier than Blinken.) From the graphs, we can see that Hua tends to tweet with pictures or links more than Blinken but tweets with pictures or links are in the minority for both of them.
+The word cloud analysis yields similar results with Python word cloud mentioned above. Hua is more likely to say things related to China itself while Blinken tends to speak more related to foreign issues such as “minister, foreign, world, Nato.”
+
+Mapping the most frequently tweeted word by Blinken and Hua onto nrc lexicon, we find that Blinken tend to say more words related to the “positive” and “trust” sentiment, such as “partnership, pleased, committed.” Hua has a more even distribution, with “positive,” “trust,” and “negative” as the 3 major sentiments. Then, we calculate the log odd ratio of commonly used words by each candidate and found that frequent words like “china” and “covid19” are more likely to be spoken by Hua while “nato”, “mexico”, and “afghanistan” are more likely to be spoken by Blinken. Hua seems to express a wider range of emotions while Blinken’s tweet words tend to be more positive, joyful and trustful.
+
+### Python:
+The word clouds showed that Blinken's most frequently mentioned word is "today" and Hua's most frequently mentioned word is "China". 
+
+Naive Bayes algorithms performed similarly with count vectorizer and tfidf vectorizer. The naive Bayes tfidf score is  0.883, while the naive Bayes count score is  0.888. However, from the confusion metric, we can notice the algorithm using tfidf vectorizer predicted that all the tweets are from Hua. But because  Hua has more tweets than Blinken, the accuracy score is still high.
+
+The Support Vector Classifier has an accuracy of 0.896, which is the highest among the 3 algorithms. However, from the confusion matrix, we can see that the algorithm still tends to misclassify the tweets from Blinken. And the high accuracy score is because of the more tweets from Hua.
+
+When we use the tweets from Kanye West as the testing datasets, the accuracy of the 3 algorithms are all 0. These results make sense, as the algorithm is only trained to make predictions on whether the tweets are Hua or Blinken. Even though the algorithm will make predictions on Kanye’s tweets, the results are always inconsistent with the actual label (i.e. Kanye West)
+
+ 
+## Conclusion and Limitations
+
+### Conclusion: 
+From “The most common words” and “Word Cloud” we can see, Blinken's most frequently mentioned word for country is "foreign" and Hua's most frequently mentioned word for country is "China". Our analysis revealed that the two diplomats were vocalizing in different directions. Hua voices out to defend or speak up for her own country and Blinken prefers to announce his foreign visits to exert influence on other countries. From this we can see that China's previously stated diplomatic position of not interfering in the internal affairs of other countries seems to hold true in our analysis, and the US approach is to put pressure on competitors in the international competition by widely announcing their diplomatic actions.
+
+The algorithms we created based on Naive Bayes and Support Vector Machine have high accuracy scores with the testing datasets. However, this may be because Hua has much more tweets than Blinken and the algorithms tend to predict that the tweets are from Hua. Therefore, we can’t conclude that the algorithms perform well.
+The algorithms can only be used for predicting tweets from Hua or Blinken. This is because the algorithms are trained to only output two results: Hua and Blinken. Using other users’ tweets will result in an accuracy score of 0.
+ 
+### Limitations:
+Naive Bayes is based on the Bayes' theorem with strong (naïve) independence assumptions between the features. Nevertheless, there are specific patterns in text due to grammar. This is a significant limitation of Naive Bayes algorithm we created in this research.
+
+In pattern recognition and machine learning, a feature vector is an n-dimensional vector of numerical features that represent some object. In this research, although we vectorize text into trainable features, the features may not be effective enough for the training process. If we can include other features, such as the time of the tweets, punctuation, sentiments. However, it is difficult to transform these information into trainable features (a vector of numbers.)
+
