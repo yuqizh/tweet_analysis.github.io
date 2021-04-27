@@ -1,4 +1,5 @@
 name: "BDS 516 Homework 09: Twitter Data Analysis"
+output_dir: "."
 navbar:
   title: "BDS 516 Homework 09: Twitter Data Analysis"
   type: inverse
@@ -13,9 +14,10 @@ navbar:
           
 output:
   rmdformats::downcute:
+    fig_height: 3
+    fig_width: 5
     fig_caption: true
     self_contained: true
     thumbnails: true
-    lightbox: true
     gallery: false
     highlight: tango

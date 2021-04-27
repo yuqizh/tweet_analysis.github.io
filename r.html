@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Yuqi Zhao" />
+
+
+<title>R Coding</title>
+
+<script src="site_libs/header-attrs-2.6/header-attrs.js"></script>
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">BDS 516 Homework 09: Twitter Data Analysis</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Project Summary</a>
+</li>
+<li>
+  <a href="r.html">Part 1: R Coding</a>
+</li>
+<li>
+  <a href="HW9_python.html">Part 2: Python Coding</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">R Coding</h1>
+<h4 class="author">Yuqi Zhao</h4>
+<h4 class="date">4/20/2021</h4>
+
+</div>
+
+
+<div id="preliminary-exploraions" class="section level2">
+<h2>Preliminary exploraions</h2>
+<p>First, let’s compare the time at which Blinken and Hua tweets. Based on West Coast time (EST,) we see that Blinken tweets the most at around 9:30am of the day and the number declines as the day turns night. However, Hua follows an opposite pattern, tweeting the most at around 1am EST and stays active in the night time. The opposite styles is probably due to the 12-hour-difference betweeen the U.S. and China.</p>
+<pre class="r"><code># see time of the data &quot;created_at&quot; tweet distribution plot
+Hua %&gt;%
+  count(hour = hour(with_tz(created_at, &quot;EST&quot;))) %&gt;%
+  mutate(percent = n/sum(n)) %&gt;%
+  ggplot(aes(x = hour, y = percent)) +
+  labs(x = &quot;Hour of day (EST)&quot;, y = &quot;% of tweets&quot;, color = &quot;&quot;) + 
+  scale_y_continuous(labels = percent_format()) +
+  geom_line() + labs(title = &quot;What time Hua published tweets?&quot;)</code></pre>
+<p><img src="r_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<pre class="r"><code>Blinken %&gt;%
+  count(hour = hour(with_tz(created_at, &quot;EST&quot;))) %&gt;%
+  mutate(percent = n/sum(n)) %&gt;%
+  ggplot(aes(x = hour, y = percent)) +
+  labs(x = &quot;Hour of day (EST)&quot;, y = &quot;% of tweets&quot;, color = &quot;&quot;) + 
+  scale_y_continuous(labels = percent_format()) +
+  geom_line() + labs(title = &quot;What time Blinken published tweets?&quot;)</code></pre>
+<p><img src="r_files/figure-html/unnamed-chunk-1-2.png" width="672" /></p>
+<p>Then, we can look at how many of the tweets have pictures or links for Blinken and Hua. Hua has almost 6 times more tweets than Blinken (this is because she joined 2 years earlier than Blinken.) From the graphs, we can see that Hua tends to tweet with picture or link more than Blinken but tweets with picture or link are in the minority for both of them.</p>
+<pre class="r"><code>#  Count the number of tweets with and without picture/links 
+tweet_picture_counts_Hua &lt;- Hua %&gt;%
+  filter(!str_detect(text, &#39;^&quot;&#39;)) %&gt;%
+  count(picture = ifelse(str_detect(text, &quot;t.co&quot;),
+                         &quot;Picture/link&quot;, &quot;No picture/link&quot;))
+
+tweet_picture_counts_Blinken &lt;- Blinken %&gt;%
+  filter(!str_detect(text, &#39;^&quot;&#39;)) %&gt;%
+  count(picture = ifelse(str_detect(text, &quot;t.co&quot;),
+                         &quot;Picture/link&quot;, &quot;No picture/link&quot;))
+
+# Make bar plots 
+ggplot(tweet_picture_counts_Hua, aes(x = picture, y = n)) +
+  geom_bar(stat = &quot;identity&quot;, position = &quot;dodge&quot;) +
+  labs(x = &quot;&quot;, y = &quot;Number of tweets&quot;, fill = &quot;&quot;) + labs(title = &quot;The number of tweets with and without picture/links (Hua)&quot;)</code></pre>
+<p><img src="r_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<pre class="r"><code>ggplot(tweet_picture_counts_Blinken, aes(x = picture, y = n)) +
+  geom_bar(stat = &quot;identity&quot;, position = &quot;dodge&quot;) +
+  labs(x = &quot;&quot;, y = &quot;Number of tweets&quot;, fill = &quot;&quot;)+ labs(title = &quot;The number of tweets with and without picture/links (Blinken)&quot;)</code></pre>
+<p><img src="r_files/figure-html/unnamed-chunk-2-2.png" width="672" /></p>
+</div>
+<div id="most-commonly-used-words-and-word-clouds" class="section level2">
+<h2>Most commonly used words and word clouds</h2>
+<div id="most-commonly-used-words" class="section level3">
+<h3>Most commonly used words:</h3>
+<p>In this section, we plot the most commonly used words for Blinken and Hua and plot word clouds for both of them. Below are the most commonly used words by Blinken and Hua, using the regular expression pattern method that filters for words and digits. It also includes hashtags, @, digits, but not punctuation.</p>
+<pre class="r"><code># Load the tidytext package - to bag the sentence into texts
+library(tidytext)
+
+# Create a regex pattern
+reg &lt;- &quot;([^A-Za-z\\d#@&#39;]|&#39;(?![A-Za-z\\d#@]))&quot;
+
+# Unrest the text strings into a data frame of words
+tweet_words_Hua &lt;- Hua %&gt;%
+  filter(!str_detect(text, &#39;^&quot;&#39;)) %&gt;%
+  mutate(text = str_replace_all(text, &quot;https://t.co/[A-Za-z\\d]+|&amp;amp;&quot;, &quot;&quot;)) %&gt;%
+  unnest_tokens(word, text, token = &quot;regex&quot;, pattern = reg) %&gt;%
+  filter(!word %in% stop_words$word,
+         str_detect(word, &quot;[a-z]&quot;))
+
+tweet_words_Blinken &lt;- Blinken %&gt;%
+  filter(!str_detect(text, &#39;^&quot;&#39;)) %&gt;%
+  mutate(text = str_replace_all(text, &quot;https://t.co/[A-Za-z\\d]+|&amp;amp;&quot;, &quot;&quot;)) %&gt;%
+  unnest_tokens(word, text, token = &quot;regex&quot;, pattern = reg) %&gt;%
+  filter(!word %in% stop_words$word,
+         str_detect(word, &quot;[a-z]&quot;))
+
+# Plot the most common words 
+tweet_words_Hua %&gt;%
+  count(word, sort = TRUE) %&gt;%
+  head(20) %&gt;%
+  mutate(word = reorder(word, n)) %&gt;%
+  ggplot(aes(x = word, y = n)) +
+  geom_bar(stat = &quot;identity&quot;) +
+  ylab(&quot;Occurrences&quot;) +
+  coord_flip() + labs(title = &quot;Most common words of Hua&quot;)</code></pre>
+<p><img src="r_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<pre class="r"><code>tweet_words_Blinken %&gt;%
+  count(word, sort = TRUE) %&gt;%
+  head(20) %&gt;%
+  mutate(word = reorder(word, n)) %&gt;%
+  ggplot(aes(x = word, y = n)) +
+  geom_bar(stat = &quot;identity&quot;) +
+  ylab(&quot;Occurrences&quot;) +
+  coord_flip()+ labs(title = &quot;Most common words of Blinken&quot;)</code></pre>
+<p><img src="r_files/figure-html/unnamed-chunk-3-2.png" width="672" /></p>
+</div>
+<div id="word-clouds" class="section level3">
+<h3>Word clouds</h3>
+<p>Below are word clouds for Blinken and Hua, using stemming method that gets rid of stop words, punctuation, white space, number and customized words such as “the, https, t.co, with” and so on. The size and color of each words signals how often the word is used in Blinken and Hua’s tweets.</p>
+</div>
+<div id="hua-word-could" class="section level3">
+<h3>Hua Word Could:</h3>
+<pre class="r"><code>hua_docs &lt;- Corpus(VectorSource(hua_text))
+
+hua_toSpace &lt;- content_transformer(function (x , pattern ) gsub(pattern, &quot; &quot;, x))
+hua_docs &lt;- tm_map(hua_docs, hua_toSpace, &quot;/&quot;)
+hua_docs &lt;- tm_map(hua_docs, hua_toSpace, &quot;@&quot;)
+hua_docs &lt;- tm_map(hua_docs, hua_toSpace, &quot;\\|&quot;)
+
+# Convert the text to lower case
+hua_docs &lt;- tm_map(hua_docs, content_transformer(tolower))
+# Remove numbers
+hua_docs &lt;- tm_map(hua_docs, removeNumbers)
+# Remove common stopwords
+#hua_docs &lt;- tm_map(hua_docs, removeWords, stopwords(&quot;https&quot;))
+# specify your stopwords as a character vector
+hua_docs &lt;- tm_map(hua_docs, removeWords, c(&quot;https&quot;, &quot;t.co&quot;,&quot;the&quot;, &quot;and&quot;, &quot;with&quot;, &quot;for&quot;, &quot;has&quot;, &quot;will&quot;, &quot;that&quot;, &quot;are&quot;, &quot;is&quot;, &quot;this&quot;)) 
+# Remove punctuations
+hua_docs &lt;- tm_map(hua_docs, removePunctuation)
+# Eliminate extra white spaces
+hua_docs &lt;- tm_map(hua_docs, stripWhitespace)
+# Text stemming
+hua_docs &lt;- tm_map(hua_docs, stemDocument)</code></pre>
+<pre class="r"><code>hua_dtm &lt;- TermDocumentMatrix(hua_docs)
+m &lt;- as.matrix(hua_dtm)
+v &lt;- sort(rowSums(m),decreasing=TRUE)
+d &lt;- data.frame(word = names(v),freq=v)
+# head(d, 50)
+
+set.seed(1234)
+wordcloud(words = d$word, freq = d$freq, min.freq = 1,
+          max.words=200, random.order=FALSE, rot.per=0.35, 
+          colors=brewer.pal(50, &quot;Dark2&quot;))</code></pre>
+<p><img src="r_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+</div>
+<div id="blinken-word-cloud" class="section level3">
+<h3>Blinken Word Cloud:</h3>
+<pre class="r"><code>bli_docs &lt;- Corpus(VectorSource(bli_text))</code></pre>
+<pre class="r"><code>bli_toSpace &lt;- content_transformer(function (x , pattern ) gsub(pattern, &quot; &quot;, x))
+bli_docs &lt;- tm_map(bli_docs, bli_toSpace, &quot;/&quot;)
+bli_docs &lt;- tm_map(bli_docs, bli_toSpace, &quot;@&quot;)
+bli_docs &lt;- tm_map(bli_docs, bli_toSpace, &quot;\\|&quot;)
+
+# Convert the text to lower case
+bli_docs &lt;- tm_map(bli_docs, content_transformer(tolower))
+# Remove numbers
+bli_docs &lt;- tm_map(bli_docs, removeNumbers)
+# Remove common stopwords
+bli_docs &lt;- tm_map(bli_docs, removeWords, c(&quot;https&quot;, &quot;tco&quot;,&quot;the&quot;, &quot;and&quot;, &quot;with&quot;, &quot;for&quot;, &quot;has&quot;, &quot;will&quot;, &quot;that&quot;, &quot;are&quot;, &quot;is&quot;, &quot;this&quot;, &quot;t.co&quot;)) 
+# Remove punctuations
+bli_docs &lt;- tm_map(bli_docs, removePunctuation)
+# Eliminate extra white spaces
+bli_docs &lt;- tm_map(bli_docs, stripWhitespace)
+# Text stemming
+bli_docs &lt;- tm_map(bli_docs, stemDocument)
+
+bli_dtm &lt;- TermDocumentMatrix(bli_docs)
+m &lt;- as.matrix(bli_dtm)
+v &lt;- sort(rowSums(m),decreasing=TRUE)
+d &lt;- data.frame(word = names(v),freq=v)
+# head(d, 50)
+
+set.seed(1234)
+wordcloud(words = d$word, freq = d$freq, min.freq = 1,
+          max.words=200, random.order=FALSE, rot.per=0.35, 
+          colors=brewer.pal(50, &quot;Dark2&quot;))</code></pre>
+<p><img src="r_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+</div>
+</div>
+<div id="sentiment-analysis" class="section level2">
+<h2>Sentiment analysis:</h2>
+<div id="top-words-used-by-blinken-and-hua-by-sentiment-category" class="section level3">
+<h3>Top words used by Blinken and Hua by sentiment category</h3>
+<p>Below, we exaime the top 40 words used by Blinken and Hua by sentiment category.</p>
+<pre class="r"><code>Hua_sentiment &lt;-    
+ inner_join(tweet_words_Hua, nrc, by = &quot;word&quot;) %&gt;% 
+            group_by(sentiment)  %&gt;%
+            count(word, sort = TRUE) %&gt;%
+            head(40)
+
+Blinken_sentiment &lt;-    
+ inner_join(tweet_words_Blinken, nrc, by = &quot;word&quot;) %&gt;% 
+            group_by(sentiment)  %&gt;% 
+            count(word, sort = TRUE) %&gt;%
+            head(40)
+
+ggplot(Hua_sentiment, aes(x = word, y = n, fill = sentiment)) +
+  facet_grid(~ sentiment, scales = &quot;free&quot;, space=&quot;free_x&quot;) +
+  geom_bar(stat = &quot;identity&quot;, position = &quot;dodge&quot;, width = 0.9) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) + theme (plot.title = element_text(hjust = 0.5)) +
+  labs(x = &quot;Top 40 words used in Twitter&quot;, y = &quot;Count of each word&quot;, title = &quot;Top 40 words used in Hua&#39;s tweets by sentiment&quot;) </code></pre>
+<p><img src="r_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<pre class="r"><code>ggplot(Blinken_sentiment, aes(x = word, y = n, fill = sentiment)) +
+  facet_grid(~ sentiment, scales = &quot;free&quot;, space=&quot;free_x&quot;) +
+  geom_bar(stat = &quot;identity&quot;, position = &quot;dodge&quot;, width = 0.9) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  labs(x = &quot;Top 40 words used in Twitter&quot;, y = &quot;Count of each word&quot;, title = &quot;Top 40 words used in Blinken&#39;s tweets by sentiment&quot;)</code></pre>
+<p><img src="r_files/figure-html/unnamed-chunk-12-2.png" width="672" /></p>
+</div>
+<div id="how-likely-is-a-certain-commonly-used-word-used-by-hua-or-blinken" class="section level3">
+<h3>How likely is a certain commonly used word used by Hua or Blinken?</h3>
+<p>In this part, we calculate the log odds ratio of commonly used words by candidate (how likely is a certain word used by Hua or Blinken.) The first graph shows the top 20 commonly used words and their likelihood of coming from each candidate. The second graph shows the log odds ratio of words by person in grouped sentiments.</p>
+<pre class="r"><code>tweet_words_Hua = tweet_words_Hua %&gt;% mutate(source=&quot;Hua&quot;)
+tweet_words_Blinken = tweet_words_Blinken %&gt;% mutate(source=&quot;Blinken&quot;)
+rbind(tweet_words_Blinken,tweet_words_Hua) -&gt; combined
+
+combined_sentiment &lt;-    
+ inner_join(combined, nrc, by = &quot;word&quot;) %&gt;% 
+            group_by(sentiment) 
+
+# calculate the log score of how likely a word comes from Hua or Blinken
+Hua_Blinken_ratios &lt;- 
+combined %&gt;%
+  count(word, source) %&gt;%
+  group_by(word)  %&gt;% 
+  filter(sum(n) &gt;= 5) %&gt;%
+  spread(source, n, fill = 0) %&gt;%
+  ungroup()  %&gt;% 
+  mutate_if(is.numeric, ~((. + 1) / sum(. + 1))) %&gt;%
+  mutate(logratio = log2(Hua / Blinken)) %&gt;%
+  arrange(desc(logratio))
+
+#plot the top 20 common words in the combined word set and their likelihood of belong to each candidate
+Hua_Blinken_ratios %&gt;%
+  top_n(20, abs(logratio)) %&gt;%
+  ungroup() %&gt;%
+  mutate(word = reorder(word, logratio)) %&gt;%
+  ggplot(aes(x = word, y = logratio, fill = logratio &lt; 0)) +
+  geom_bar(stat = &quot;identity&quot;) +
+  coord_flip() +
+  ylab(&quot;Hua / Blinken log ratio&quot;) +
+  labs(title = &quot;How likely is a word coming from Blinken or Hua by sentiments (top 20 words)?&quot;)+
+  scale_fill_manual(name = &quot;&quot;, labels = c(&quot;Hua&quot;, &quot;Blinken&quot;),
+  values = c(&quot;red&quot;, &quot;lightblue&quot;))</code></pre>
+<p><img src="r_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<pre class="r"><code>#look at sentiments and predict whether a tweet is from Hua or Blinken
+Hua_Blinken_sentiment &lt;- Hua_Blinken_ratios %&gt;%
+  inner_join(nrc, by = &quot;word&quot;) %&gt;%
+  filter(!sentiment %in% c(&quot;positive&quot;, &quot;negative&quot;)) %&gt;%
+  mutate(sentiment = reorder(sentiment, -logratio),
+         word = reorder(word, -logratio)) %&gt;%
+  group_by(sentiment) %&gt;%
+  top_n(10, abs(logratio)) %&gt;%
+  ungroup() 
+
+# Plot the log odds ratio of words by person in groups sentiments
+ggplot(Hua_Blinken_sentiment, aes(x = word, y = logratio, fill = logratio &lt; 0)) +
+  facet_wrap(~ sentiment, scales = &quot;free&quot;, nrow = 2) +
+  geom_bar(stat = &quot;identity&quot;) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  labs(x = &quot;&quot;, y = &quot;Hua / Blinken log ratio&quot;, title = &quot;How likely is a word coming from Blinken or Hua (by sentiments)?&quot;) +
+  scale_fill_manual(name = &quot;&quot;, labels = c(&quot;Hua&quot;, &quot;Blinken&quot;),
+                    values = c(&quot;red&quot;, &quot;lightblue&quot;))</code></pre>
+<p><img src="r_files/figure-html/unnamed-chunk-13-2.png" width="672" /></p>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
